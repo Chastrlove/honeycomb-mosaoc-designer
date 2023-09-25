@@ -1,6 +1,12 @@
 import { Tile } from "./Tile";
 
-function isPointInPolygon(point, vertices) {
+function isPointInPolygon(
+  point: {
+    x: number;
+    y: number;
+  },
+  vertices,
+) {
   let crossings = 0;
   for (let i = 0; i < vertices.length; i++) {
     const j = (i + 1) % vertices.length;
@@ -92,21 +98,20 @@ export const renderCanvas = (
 
   const avg = calculateAverageColor(pixels);
 
-  iterateHexPixels(corners, (px, py) => {
-    ctx.fillStyle = `rgba(${avg.r},${avg.g},${avg.b},${avg.a / 255})`;
-    ctx.fillRect(px, py, 1, 1);
-  });
+  tile.render = (fillColor: string) => {
+    ctx.beginPath();
+    ctx.moveTo(corners[0].x, corners[0].y);
+    corners.forEach((corner) => ctx.lineTo(corner.x, corner.y));
+    ctx.closePath();
+    ctx.strokeStyle = "rgb(153, 153, 153)";
+    ctx.stroke();
+    // 红色填充
+    ctx.fillStyle = fillColor;
+    ctx.fill();
+    ctx.restore();
+  };
 
-  ctx.beginPath();
-  ctx.moveTo(corners[0].x, corners[0].y);
-  corners.forEach((corner) => ctx.lineTo(corner.x, corner.y));
-  ctx.closePath();
-  ctx.strokeStyle = "rgb(153, 153, 153)";
-  ctx.stroke();
-  // 红色填充
-  // ctx.fillStyle = 'rgb(204, 51, 51)';
-  // ctx.fill();
-  ctx.restore();
+  tile.color = avg;
 
-  return avg;
+  tile.render(avg.rgba);
 };

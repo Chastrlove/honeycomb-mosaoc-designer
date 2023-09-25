@@ -15,4 +15,5 @@ export class Tile extends HEX {
     a: number;
     rgba: string;
   };
+  render: (fillColor: string) => void;
 }

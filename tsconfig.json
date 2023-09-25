@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "es5",
+    "lib": ["dom", "esnext"],
+    "sourceMap": true
+  },
+  "exclude": ["node_modules"]
+}
